@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Tostapane",
+    "description": "Tostapane di design",
+    "available": false,
+    "link": "https://www.zwilling.com/it/zwilling-enfinigy-tostapane---2-scomparti-argento-53008-001-0/53008-001-0.html?kb=ga_pm_18574278682_&gad_source=1&gclid=Cj0KCQiAvvO7BhC-ARIsAGFyToVWXgHk9db89OLZtIPI6mh6DgDfKB5Yq1BoBQ-oTEJc_WcF61NGHmAaAvQCEALw_wcB",
+    "image": "https://www.zwilling.com/dw/image/v2/BCGV_PRD/on/demandware.static/-/Sites-zwilling-master-catalog/default/dw39ea43db/images/large/530080000_6.jpg?sw=651&sh=651&sm=fit",
+    "reservedBy": null
+  },
+  {
+    "id": 2,
+    "name": "Macchina del caffè",
+    "description": "Espresso automatico",
+    "available": true,
+    "link": "https://www.amazon.it/DeLonghi-Specialista-EC9155-MB-Macinacaff%C3%A8-regolazione/dp/B09RR1C9FB?th=1",
+    "image": "https://m.media-amazon.com/images/I/61pq5lZ6JVL._AC_UF894,1000_QL80_.jpg",
+    "reservedBy": null
+  },
+  {
+    "id": 3,
+    "name": "Divano",
+    "description": "Per sedersi comodi",
+    "available": true,
+    "link": "https://example.com/servizio-piatti",
+    "image": "https://example.com/images/servizio-piatti.jpg",
+    "reservedBy": null
+  },
+  {
+    "id": 4,
+    "name": "Soundbar",
+    "description": "soundbar bang & olufsen",
+    "available": false,
+    "link": "https://www.bang-olufsen.com/it/it/soundbars/beosound-stage",
+    "image": "https://images.ctfassets.net/8cd2csgvqd3m/56bBaW3fCUKiOGNevwRi03/eb7fdb4219157bb8edc41097e17eb0f9/Stage_Oak_Lifestyle2.jpg",
+    "reservedBy": null
+  }
+]
