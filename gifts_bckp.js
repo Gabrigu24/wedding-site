@@ -1,4 +1,3 @@
-// require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,6 +8,18 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Connettiti a MongoDB
+mongoose.set('strictQuery', false);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Connesso a MongoDB'))
+  .catch(err => {
+    console.error('Errore di connessione a MongoDB:', err);
+    process.exit(1);
+  });
 
 // Schema e modello Mongoose
 const giftSchema = new mongoose.Schema({
@@ -24,26 +35,9 @@ const giftSchema = new mongoose.Schema({
 });
 const Gift = mongoose.model('Gift', giftSchema);
 
-// Funzione per connettersi a MongoDB
-const connectToDatabase = async () => {
-  if (mongoose.connection.readyState === 0) { // Controlla se non esiste una connessione attiva
-    try {
-      await mongoose.connect(process.env.MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-      console.log('Connesso a MongoDB');
-    } catch (err) {
-      console.error('Errore di connessione a MongoDB:', err);
-      throw err;
-    }
-  }
-};
-
 // Endpoint per ottenere i regali
 app.get('/api/gifts', async (req, res) => {
   try {
-    await connectToDatabase(); // Connettiti al database
     const gifts = await Gift.find();
     res.status(200).json(gifts);
   } catch (err) {
@@ -62,8 +56,6 @@ app.post('/api/gifts/:id/select', async (req, res) => {
   }
 
   try {
-    await connectToDatabase(); // Connettiti al database
-
     const gift = await Gift.findOne({ id: giftId });
 
     if (!gift) {
@@ -87,10 +79,6 @@ app.post('/api/gifts/:id/select', async (req, res) => {
 });
 
 // Avvia il server
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`Server in esecuzione su http://localhost:${PORT}`);
-  });
-}
-
-module.exports = app; // Esporta l'app per l'ambiente serverless (Vercel)
+app.listen(PORT, () => {
+  console.log(`Server in esecuzione su http://localhost:${PORT}`);
+});
