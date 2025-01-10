@@ -35,7 +35,7 @@ const giftSchema = new mongoose.Schema({
 const Gift = mongoose.model('Gift', giftSchema);
 
 // **Endpoint per ottenere tutti i regali**
-app.get('/api/gifts', async (req, res) => {
+app.get('/api/gifts.js', async (req, res) => {
   try {
     const gifts = await Gift.find(); // Recupera tutti i documenti dalla collezione
     res.status(200).json(gifts);
@@ -46,7 +46,7 @@ app.get('/api/gifts', async (req, res) => {
 });
 
 // **Endpoint per aggiornare lo stato di un regalo**
-app.post('/api/gifts/:id/select', async (req, res) => {
+app.post('/api/gifts.js/:id/select', async (req, res) => {
   const giftId = req.params.id;
   const { userName, userEmail, userMessage } = req.body;
 
