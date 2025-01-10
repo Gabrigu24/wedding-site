@@ -1,5 +1,4 @@
 {
-  "dotenv": "^16.0.0",
   "name": "wedding-gifts",
   "version": "1.0.0",
   "main": "api/gifts.js",
