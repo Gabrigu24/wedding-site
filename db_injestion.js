@@ -26,27 +26,27 @@ const giftSchema = new mongoose.Schema({
 
 const Gift = mongoose.model('Gift', giftSchema);
 
-// Carica i dati dal file JSON
-const filePath = './public/gifts.json'; // Assicurati che il file JSON sia nella root del progetto
+// Leggi il file JSON
+const filePath = './gifts.json'; // Percorso al file JSON
 const jsonData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
-// Funzione per inizializzare i dati
-async function initializeDatabase() {
+// Funzione per importare i dati
+async function importData() {
   try {
-    // Cancella i dati esistenti nella collezione
+    // Cancella tutti i dati esistenti nella collezione
     await Gift.deleteMany({});
     console.log('Collezione svuotata.');
 
     // Inserisci i nuovi dati
     await Gift.insertMany(jsonData);
-    console.log('Dati caricati con successo nel database.');
+    console.log('Dati importati con successo!');
 
     mongoose.connection.close(); // Chiudi la connessione
     console.log('Connessione a MongoDB chiusa.');
   } catch (error) {
-    console.error('Errore durante l\'inizializzazione del database:', error);
+    console.error('Errore durante l\'importazione dei dati:', error);
   }
 }
 
-// Avvia l'inizializzazione
-initializeDatabase();
+// Avvia l'importazione
+importData();
