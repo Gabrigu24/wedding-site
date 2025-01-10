@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = async (req, res) => {
-  const filePath = path.join(__dirname, '../public/gifts.json');
+  const filePath = path.join(__dirname, '../public/gifts');
   console.log('Percorso del file JSON:', filePath);
   console.log('Metodo della richiesta:', req.method);
   console.log('Headers della richiesta:', req.headers);
