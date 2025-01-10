@@ -5,37 +5,28 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware per CORS (necessario per richieste cross-origin)
+// Middleware
 app.use(cors());
-
-// Middleware per il parsing del corpo delle richieste JSON
 app.use(express.json());
 
-// Test Middleware
-app.use((req, res, next) => {
-  console.log('Metodo:', req.method);
-  console.log('URL:', req.url);
-  console.log('Body:', req.body); // Questo mostrerà il corpo delle richieste POST
-  next();
-});
-
 // Connettiti a MongoDB
+mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
   .then(() => console.log('Connesso a MongoDB'))
-  .catch((err) => {
+  .catch(err => {
     console.error('Errore di connessione a MongoDB:', err);
-    process.exit(1); // Chiudi l'applicazione se la connessione fallisce
+    process.exit(1);
   });
 
-// Definizione di un semplice schema e modello per test
+// Schema e modello Mongoose
 const giftSchema = new mongoose.Schema({
   id: Number,
   name: String,
   description: String,
-  available: Boolean,
+  available: { type: Boolean, default: true },
   reservedBy: {
     name: String,
     email: String,
@@ -51,17 +42,14 @@ app.get('/api/gifts', async (req, res) => {
     res.status(200).json(gifts);
   } catch (err) {
     console.error('Errore nel recupero dei regali:', err);
-    res.status(500).json({ message: 'Errore durante il recupero dei regali.' });
+    res.status(500).json({ message: 'Errore durante il recupero dei regali.', error: err.message });
   }
 });
 
 // Endpoint per selezionare un regalo
 app.post('/api/gifts/:id/select', async (req, res) => {
-  const giftId = req.params.id;
+  const giftId = parseInt(req.params.id, 10); // Converte l'ID in numero
   const { userName, userEmail, userMessage } = req.body;
-
-  console.log('ID del regalo:', giftId);
-  console.log('Dati ricevuti:', req.body);
 
   if (!userName || !userEmail) {
     return res.status(400).json({ message: 'Nome ed email sono obbligatori.' });
@@ -86,7 +74,7 @@ app.post('/api/gifts/:id/select', async (req, res) => {
     res.status(200).json({ message: 'Regalo prenotato con successo!', gift });
   } catch (err) {
     console.error('Errore durante la prenotazione del regalo:', err);
-    res.status(500).json({ message: 'Errore durante la prenotazione del regalo.' });
+    res.status(500).json({ message: 'Errore durante la prenotazione del regalo.', error: err.message });
   }
 });
 
