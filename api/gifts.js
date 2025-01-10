@@ -1,17 +1,26 @@
+require('dotenv').config(); // Carica le variabili di ambiente dal file .env
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Stringa di connessione a MongoDB
-const uri =  "mongodb+srv://gblgn24:BTyc30LNIm3w77Yb@cluster0.lvi32.mongodb.net/wedding_gifts?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI 
+// || "mongodb+srv://gblgn24:BTyc30LNIm3w77Yb@cluster0.lvi32.mongodb.net/wedding_gifts?retryWrites=true&w=majority";
 
 // Connettiti a MongoDB
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true ,serverSelectionTimeoutMS: 60 })
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // Timeout di connessione di 5 secondi
+})
   .then(() => console.log('Connesso a MongoDB'))
-  .catch(err => console.error('Errore di connessione a MongoDB:', err));
+  .catch(err => {
+    console.error('Errore di connessione a MongoDB:', err.message);
+    process.exit(1); // Uscita forzata se non riesce a connettersi
+  });
 
 // Middleware
 app.use(cors());
@@ -19,8 +28,8 @@ app.use(express.json());
 
 // Definizione dello schema e modello Mongoose
 const giftSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
+  id: { type: Number, required: true },
+  name: { type: String, required: true },
   description: String,
   image: String,
   link: String,
@@ -47,7 +56,7 @@ app.get('/api/gifts', async (req, res) => {
 
 // **Endpoint per aggiornare lo stato di un regalo**
 app.post('/api/gifts/:id/select', async (req, res) => {
-  const giftId = req.params.id;
+  const giftId = parseInt(req.params.id, 10);
   const { userName, userEmail, userMessage } = req.body;
 
   if (!userName || !userEmail) {
@@ -80,6 +89,11 @@ app.post('/api/gifts/:id/select', async (req, res) => {
     console.error('Errore durante l\'aggiornamento del regalo:', err);
     res.status(500).json({ message: 'Errore durante l\'aggiornamento del regalo.' });
   }
+});
+
+// **Gestione degli endpoint non trovati**
+app.use((req, res) => {
+  res.status(404).json({ message: 'Endpoint non trovato.' });
 });
 
 // Avvia il server
