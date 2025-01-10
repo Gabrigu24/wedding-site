@@ -9,7 +9,7 @@ const PORT = 3000;
 const uri =  "mongodb+srv://gblgn24:BTyc30LNIm3w77Yb@cluster0.lvi32.mongodb.net/wedding_gifts?retryWrites=true&w=majority";
 
 // Connettiti a MongoDB
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true ,serverSelectionTimeoutMS: 5000 })
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true ,serverSelectionTimeoutMS: 60 })
   .then(() => console.log('Connesso a MongoDB'))
   .catch(err => console.error('Errore di connessione a MongoDB:', err));
 
