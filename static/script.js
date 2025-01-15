@@ -1,52 +1,53 @@
 const apiUrl = '/api/gifts'; // Percorso relativo per gli endpoint API
 let selectedGiftId = null;
 
-// Funzione per caricare i regali
 async function loadGifts() {
     const loadingMessage = document.getElementById('loadingMessage');
     const errorMessage = document.getElementById('errorMessage');
     const giftsContainer = document.getElementById('gifts');
-
+  
     try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('Errore durante il caricamento dei regali.');
-
-        const gifts = await response.json();
-        loadingMessage.style.display = 'none';
-
-        if (gifts.length === 0) {
-            giftsContainer.innerHTML = '<p class="text-center">Nessun regalo disponibile al momento.</p>';
-            giftsContainer.style.display = 'block';
-            return;
-        }
-
-        giftsContainer.innerHTML = '';
-        giftsContainer.style.display = 'flex';
-
-        gifts.forEach((gift) => {
-            const giftDiv = document.createElement('div');
-            giftDiv.className = 'col-md-4';
-            giftDiv.innerHTML = `
-                <div class="gift-card">
-                    <img src="${gift.image}" alt="${escapeHtml(gift.name)}" class="gift-image">
-                    <h4>${escapeHtml(gift.name)}</h4>
-                    <p>${escapeHtml(gift.description)}</p>
-                    <button class="btn btn-primary" ${!gift.available ? 'disabled' : ''} 
-                        onclick="showConfirmationModal(${gift.id}, '${escapeHtml(gift.name)}', '${escapeHtml(gift.description)}')">
-                        ${gift.available ? 'Prenota' : 'Non Disponibile'}
-                    </button>
-                    <a href="${gift.link}" target="_blank" class="gift-link">Vedi il regalo</a>
-                </div>
-            `;
-            giftsContainer.appendChild(giftDiv);
-        });
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`Errore nella richiesta: ${response.statusText}`);
+      }
+  
+      const gifts = await response.json(); // Questo potrebbe fallire se la risposta non è JSON valido
+      loadingMessage.style.display = 'none';
+  
+      if (gifts.length === 0) {
+        giftsContainer.innerHTML = '<p class="text-center">Nessun regalo disponibile al momento.</p>';
+        giftsContainer.style.display = 'block';
+        return;
+      }
+  
+      giftsContainer.innerHTML = '';
+      giftsContainer.style.display = 'flex';
+  
+      gifts.forEach((gift) => {
+        const giftDiv = document.createElement('div');
+        giftDiv.className = 'col-md-4';
+        giftDiv.innerHTML = `
+          <div class="gift-card">
+            <img src="${gift.image}" alt="${escapeHtml(gift.name)}" class="gift-image">
+            <h4>${escapeHtml(gift.name)}</h4>
+            <p>${escapeHtml(gift.description)}</p>
+            <button class="btn btn-primary" ${!gift.available ? 'disabled' : ''} onclick="showConfirmationModal(${gift.id}, '${escapeHtml(gift.name)}', '${escapeHtml(gift.description)}')">
+              ${gift.available ? 'Prenota' : 'Non Disponibile'}
+            </button>
+            <a href="${gift.link}" target="_blank" class="gift-link">Vedi il regalo</a>
+          </div>
+        `;
+        giftsContainer.appendChild(giftDiv);
+      });
     } catch (error) {
-        console.error('Errore:', error);
-        loadingMessage.style.display = 'none';
-        errorMessage.innerText = 'Errore durante il caricamento dei regali.';
-        errorMessage.style.display = 'block';
+      console.error('Errore durante il caricamento dei regali:', error);
+      loadingMessage.style.display = 'none';
+      errorMessage.innerText = 'Errore durante il caricamento dei regali. Controlla il log della console.';
+      errorMessage.style.display = 'block';
     }
-}
+  }
+  
 
 // Funzione per mostrare il modale di conferma
 function showConfirmationModal(id, name, description) {

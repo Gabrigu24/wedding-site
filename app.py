@@ -22,8 +22,12 @@ def serve_static(path):
 # API: Ottieni i regali
 @app.route('/api/gifts', methods=['GET'])
 def get_gifts():
-    gifts = list(gifts_collection.find({}, {"_id": 0}))  # Non include l'_id
-    return jsonify(gifts)
+    try:
+        gifts = list(gifts_collection.find({}, {"_id": 0}))  # Non include l'_id
+        return jsonify(gifts), 200
+    except Exception as e:
+        print(f"Errore nel caricamento dei regali: {e}")
+        return jsonify({"message": "Errore durante il caricamento dei regali.", "error": str(e)}), 500
 
 # API: Prenota un regalo
 @app.route('/api/gifts/<int:gift_id>/select', methods=['POST'])
