@@ -8,9 +8,5 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "app.py" },
     { "src": "/(.*)", "dest": "/static/index.html" }
-  ],
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/app.py" },
-    { "source": "/(.*)", "destination": "/static/index.html" }
   ]
 }
