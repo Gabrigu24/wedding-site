@@ -1,0 +1,109 @@
+/* Stile generale del corpo */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fffaf0;
+    color: #5a5a5a;
+    padding: 20px;
+    margin: 0;
+  }
+  
+  /* Titolo principale */
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: #d4a373;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  /* Stile delle card dei regali */
+  .gift-card {
+    border: 2px solid #f7e7ce;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .gift-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Stile dell'immagine del regalo */
+  .gift-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  /* Pulsanti */
+  .btn-primary {
+    background-color: #d4a373;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+  }
+  
+  .btn-primary:hover {
+    background-color: #c9975d;
+  }
+  
+  /* Messaggi di caricamento ed errore */
+  .loading {
+    text-align: center;
+    color: #d4a373;
+    font-size: 1.5rem;
+    margin-top: 20px;
+  }
+  
+  .error-message {
+    text-align: center;
+    color: red;
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+  
+  /* Modale di conferma */
+  .confirmation-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+  }
+  
+  /* Overlay per il modale */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+  
+    .btn-primary {
+      font-size: 0.9rem;
+      padding: 8px 16px;
+    }
+  }
+  
